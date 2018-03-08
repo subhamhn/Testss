@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<source src="web3.min.js">
+	</head>
+	<body>
+	<h1>Transfer</h1>
+			Address:
+			<input type="number" id="a1" value=""><br>
+			<input type="number" id="a2" value=""><br>
+			<input type="button" value="Totalsuply" onclick="transfer()">
+
+		<h1>Mint</h1>
+			<input type="number" id="a3" value=""><br>
+			<input type="button" value="Mint" onclick="mint()">
+
+		<h1>balanceof</h1>
+			<input type="number" id="a4" value=""><br>
+			<input type="button" value="Balance" onclick="BalanceOf()">
+	<script>
+	
+		web3.eth.defaultAccount=web3.eth.accounts[0];
+		var Testcon=web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "total_supply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_a",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	}
+]);
+		
+	var Test=Testcon.at("0x827ed18144e693ccd2ded547348c82e34169d408");
+
+
+	if(!web3.isConnected()) {
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        });		
+		
+	
+	function transfer(){
+	var address=document.getElementById("a1").value;
+	var amount=document.getElementById("a2").value;
+	Test.transfer(address,amount,function(error,result){
+		if(!error){
+			alert(ressult);
+	}
+	});
+}
+
+	function mint(){
+		var amount=document.getElementById("a3").value;
+		Test.mint(amount,function(error,result){
+			if(!error){
+				alert(result);
+		}
+	});
+}
+	function BalanceOf(){
+		var address=document.getElementById("a4").value;
+		Test.balanceOf(address,function(result,error){
+		if(!error){
+			alert("result");
+		}
+		});
+}
+
+</script>
+</body>
+
+</html>	
